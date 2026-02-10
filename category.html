@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Kategori</title>
+
+<style>
+body{font-family:Arial;background:#fff5f8;margin:0}
+.top{background:#ff2e88;color:#fff;padding:15px;text-align:center;font-weight:bold}
+
+.grid{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:20px;
+padding:20px;
+max-width:1200px;
+margin:auto;
+}
+
+.card{
+background:#fff;
+border-radius:12px;
+padding:15px;
+text-align:center;
+box-shadow:0 0 10px rgba(0,0,0,0.1);
+}
+
+.card img{
+width:100%;
+height:180px;
+object-fit:contain;
+}
+
+button{
+background:#ff2e88;
+color:#fff;
+border:none;
+padding:10px 20px;
+border-radius:20px;
+margin-top:10px;
+cursor:pointer;
+}
+</style>
+</head>
+
+<body>
+
+<div class="top">Pınar Oto Aksesuar</div>
+
+<h2 style="text-align:center" id="baslik"></h2>
+
+<div id="urunler" class="grid"></div>
+
+<script>
+const params = new URLSearchParams(window.location.search);
+const kategori = params.get("cat");
+
+document.getElementById("baslik").innerText = kategori;
+
+fetch("products.json")
+.then(res=>res.json())
+.then(data=>{
+
+let html="";
+
+data
+.filter(u => u.kategori == kategori)
+.forEach(u=>{
+
+html += `
+<div class="card">
+<img src="${u.resim}">
+<h3>${u.ad}</h3>
+<p>${u.fiyat} TL</p>
+
+<a href="urun.html?id=${u.id}">
+<button>Ürünü İncele</button>
+</a>
+
+</div>
+`;
+
+});
+
+document.getElementById("urunler").innerHTML = html;
+
+});
+</script>
+
+</body>
+</html>
