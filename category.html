@@ -10,7 +10,7 @@ body{font-family:Arial;background:#fff5f8;margin:0}
 
 .grid{
 display:grid;
-grid-template-columns:repeat(4,1fr);
+grid-template-columns:repeat(3,1fr);
 gap:20px;
 padding:20px;
 max-width:1200px;
@@ -30,35 +30,26 @@ width:100%;
 height:180px;
 object-fit:contain;
 }
-
-button{
-background:#ff2e88;
-color:#fff;
-border:none;
-padding:10px 20px;
-border-radius:20px;
-margin-top:10px;
-cursor:pointer;
-}
 </style>
 </head>
 
 <body>
 
 <div class="top">Pınar Oto Aksesuar</div>
+
 <h2 style="text-align:center" id="baslik"></h2>
+
 <div id="urunler" class="grid"></div>
+
 <script>
 document.addEventListener("DOMContentLoaded", async function(){
 
-  const kategori = new URLSearchParams(window.location.search).get("cat");
+  const params = new URLSearchParams(window.location.search);
+  const kategori = params.get("cat");
 
   const brand = localStorage.getItem("carBrand");
   const model = localStorage.getItem("carModel");
   const year  = localStorage.getItem("carYear");
-
-  const grid = document.getElementById("urunler");
-  const baslik = document.getElementById("baslik");
 
   const res = await fetch("products.json");
   const products = await res.json();
@@ -74,12 +65,12 @@ document.addEventListener("DOMContentLoaded", async function(){
     return (
       p.brand === brand &&
       p.model === model &&
-      p.year  === year
+      p.year === year
     );
   });
 
   if(filtered.length === 0){
-    html = "<h3>Bu araç için ürün bulunamadı</h3>";
+    html = "<h3 style='text-align:center'>Bu araç için ürün yok</h3>";
   }else{
     filtered.forEach(p=>{
       html += `
@@ -92,62 +83,10 @@ document.addEventListener("DOMContentLoaded", async function(){
     });
   }
 
-  baslik.innerText = kategori;
-  grid.innerHTML = html;
-
-});
-</script>
-document.addEventListener("DOMContentLoaded", async function(){
-
-  const params = new URLSearchParams(window.location.search);
-  const kategori = params.get("cat");
-
-  document.getElementById("baslik").innerText = kategori || "Tüm Ürünler";
-
-  const brand = localStorage.getItem("carBrand");
-  const model = localStorage.getItem("carModel");
-  const year  = localStorage.getItem("carYear");
-
-  const res = await fetch("products.json");
-  const products = await res.json();
-
-  let html="";
-
-  products.forEach(p=>{
-
-    // kategori kontrol
-    if(kategori && p.kategori !== kategori) return;
-
-    // araç filtresi yoksa direkt göster
-    if(!brand){
-      html += kart(p);
-      return;
-    }
-
-    // araç eşleşme
-    if(
-      p.brand === brand &&
-      p.model === model &&
-      p.year  === year
-    ){
-      html += kart(p);
-    }
-
-  });
-
+  document.getElementById("baslik").innerText = kategori;
   document.getElementById("urunler").innerHTML = html;
 
 });
-
-function kart(p){
-  return `
-  <div class="card">
-    <img src="${p.resim}">
-    <h3>${p.ad}</h3>
-    <p>${p.fiyat} TL</p>
-    <button>Sepete Ekle</button>
-  </div>`;
-}
 </script>
 
 </body>
