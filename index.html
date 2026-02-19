@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pınar Oto Aksesuar</title>
+
+<style>
+body{margin:0;font-family:Arial;background:#fff5f8}
+.top{background:#ff2e88;color:#fff;padding:15px;text-align:center;font-weight:bold}
+.container{max-width:1200px;margin:auto;padding:20px}
+h1{text-align:center}
+.filters{display:flex;gap:10px;justify-content:center;margin:20px 0;flex-wrap:wrap}
+select,button{padding:10px 15px;border-radius:20px;border:1px solid #ddd}
+button{background:#ff2e88;color:#fff;border:none;cursor:pointer}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px}
+.card{background:#fff;border-radius:12px;padding:15px;text-align:center;box-shadow:0 0 10px rgba(0,0,0,0.1)}
+.card img{width:100%;height:180px;object-fit:cover}
+</style>
+</head>
+
+<body>
+
+<div class="top">Pınar Oto Aksesuar • Orijinal Ürün • Ücretsiz Kargo</div>
+
+<div class="container">
+<h1>Pınar Oto Aksesuar</h1>
+
+<div class="filters">
+<select id="brand">
+<option value="">Marka</option>
+<option value="Audi">Audi</option>
+<option value="BMW">BMW</option>
+<option value="Chevrolet">Chevrolet</option>
+</select>
+
+<select id="model">
+<option value="">Model</option>
+<option value="A3">A3</option>
+<option value="E36">E36</option>
+<option value="Aveo">Aveo</option>
+</select>
+
+<select id="year">
+<option value="">Yıl</option>
+<option value="2003-2013">2003-2013</option>
+<option value="1990-2000">1990-2000</option>
+<option value="2006-2010">2006-2010</option>
+</select>
+
+<button onclick="filterProducts()">Uygula</button>
+<button onclick="resetProducts()">Sıfırla</button>
+</div>
+
+<div id="products" class="grid"></div>
+
+</div>
+
+<script>
+const products = [
+{
+id:1,
+brand:"Audi",
+model:"A3",
+year:"2003-2013",
+name:"Audi A3 Cam Rüzgarlığı",
+price:600,
+image:"https://static.ticimax.cloud/49394/uploads/urunresimleri/buyuk/4lu-cam-ruzgarligi.jpg"
+},
+{
+id:2,
+brand:"BMW",
+model:"E36",
+year:"1990-2000",
+name:"BMW E36 Cam Rüzgarlığı",
+price:450,
+image:"https://static.ticimax.cloud/49394/uploads/urunresimleri/buyuk/4lu-cam-ruzgarligi.jpg"
+},
+{
+id:3,
+brand:"Chevrolet",
+model:"Aveo",
+year:"2006-2010",
+name:"Chevrolet Aveo Cam Rüzgarlığı",
+price:600,
+image:"https://static.ticimax.cloud/49394/uploads/urunresimleri/buyuk/4lu-cam-ruzgarligi.jpg"
+}
+];
+
+function showProducts(list){
+const container = document.getElementById("products");
+container.innerHTML="";
+list.forEach(p=>{
+container.innerHTML+=`
+<div class="card">
+<img src="${p.image}">
+<h3>${p.name}</h3>
+<p>${p.price} TL</p>
+</div>`;
+});
+}
+
+function filterProducts(){
+const brand=document.getElementById("brand").value;
+const model=document.getElementById("model").value;
+const year=document.getElementById("year").value;
+
+const filtered = products.filter(p=>
+(!brand || p.brand===brand) &&
+(!model || p.model===model) &&
+(!year || p.year===year)
+);
+
+showProducts(filtered);
+}
+
+function resetProducts(){
+document.getElementById("brand").value="";
+document.getElementById("model").value="";
+document.getElementById("year").value="";
+showProducts(products);
+}
+
+showProducts(products);
+</script>
+
+</body>
+</html>
