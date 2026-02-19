@@ -47,30 +47,15 @@ document.addEventListener("DOMContentLoaded", async function(){
   const params = new URLSearchParams(window.location.search);
   const kategori = params.get("cat");
 
-  const brand = localStorage.getItem("carBrand");
-  const model = localStorage.getItem("carModel");
-  const year  = localStorage.getItem("carYear");
-
   const res = await fetch("products.json");
   const products = await res.json();
 
   let html = "";
 
-  const filtered = products.filter(p => {
-
-    if(p.kategori !== kategori) return false;
-
-    if(!brand) return true;
-
-    return (
-      p.brand === brand &&
-      p.model === model &&
-      p.year === year
-    );
-  });
+  const filtered = products.filter(p => p.kategori === kategori);
 
   if(filtered.length === 0){
-    html = "<h3 style='text-align:center'>Bu araç için ürün yok</h3>";
+    html = "<h3 style='text-align:center'>Bu kategoride ürün yok</h3>";
   }else{
     filtered.forEach(p=>{
       html += `
