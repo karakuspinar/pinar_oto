@@ -6,31 +6,110 @@
 <title>Pınar Oto Aksesuar</title>
 
 <style>
-body{margin:0;font-family:Arial;background:#fff5f8}
-.topbar{background:#ff2e88;color:#fff;padding:10px;text-align:center;font-weight:bold}
-.header{background:#fff;padding:15px;border-bottom:1px solid #eee}
-.header-inner{max-width:1100px;margin:auto;display:flex;justify-content:space-between;align-items:center}
-button{padding:10px 15px;border:none;border-radius:20px;background:#ff2e88;color:#fff;font-weight:bold;cursor:pointer}
-.filters{background:#fff;padding:15px;border-bottom:1px solid #eee}
-.filters-inner{max-width:1100px;margin:auto;display:flex;gap:10px;flex-wrap:wrap}
-select{padding:10px;border-radius:20px;border:1px solid #ddd;min-width:150px}
-.grid{max-width:1100px;margin:20px auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:15px;padding:10px}
-.card{background:#fff;padding:10px;border-radius:10px;text-align:center}
-.card img{width:100%;height:180px;object-fit:cover}
-.whatsapp{position:fixed;right:20px;bottom:20px;background:#25D366;color:#fff;padding:15px;border-radius:50%;font-size:20px;text-decoration:none}
+body{
+  margin:0;
+  font-family:Arial;
+  background:#fff5f8;
+}
+
+.topbar{
+  background:#ff2e88;
+  color:#fff;
+  padding:10px;
+  text-align:center;
+  font-weight:bold;
+}
+
+.header{
+  background:#fff;
+  padding:20px;
+  border-bottom:1px solid #eee;
+}
+
+.header-inner{
+  max-width:1100px;
+  margin:auto;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.right-buttons{
+display:flex;
+gap:10px;
+}
+
+button{
+padding:12px 20px;
+border:none;
+border-radius:20px;
+background:#ff2e88;
+color:#fff;
+font-weight:bold;
+cursor:pointer;
+}
+
+.filters{
+background:#fff;
+padding:20px;
+border-bottom:1px solid #eee;
+}
+
+.filters-inner{
+max-width:1100px;
+margin:auto;
+display:flex;
+gap:10px;
+flex-wrap:wrap;
+}
+
+select{
+padding:12px;
+border-radius:20px;
+border:1px solid #ddd;
+min-width:150px;
+}
+
+.grid{
+max-width:1100px;
+margin:20px auto;
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:20px;
+}
+
+.card{
+background:#fff;
+padding:10px;
+border-radius:10px;
+text-align:center;
+}
+
+.card img{
+width:100%;
+height:160px;
+object-fit:contain;
+}
 </style>
 </head>
 
 <body>
 
-<div class="topbar">Pınar Oto Aksesuar</div>
+<div class="topbar">
+Pınar Oto Aksesuar • Orijinal Ürün • Ücretsiz Kargo
+</div>
 
 <div class="header">
 <div class="header-inner">
+
 <h2>Pınar Oto</h2>
-<div>
-<button onclick="location.href='cart.html'">Sepet</button>
+
+<div class="right-buttons">
+<button>Giriş</button>
+<button>Üye Ol</button>
+<button>Sepet (0)</button>
 </div>
+
 </div>
 </div>
 
@@ -38,9 +117,20 @@ select{padding:10px;border-radius:20px;border:1px solid #ddd;min-width:150px}
 <div class="filters">
 <div class="filters-inner">
 
-<select id="brand"></select>
-<select id="model"></select>
-<select id="year"></select>
+<select id="brand">
+<option>Marka</option>
+<option>Ford</option>
+<option>Renault</option>
+<option>Fiat</option>
+</select>
+
+<select id="model">
+<option>Model</option>
+</select>
+
+<select id="year">
+<option>Yıl</option>
+</select>
 
 <button onclick="saveFilters()">Uygula</button>
 <button onclick="clearFilters()">Sıfırla</button>
@@ -69,29 +159,54 @@ select{padding:10px;border-radius:20px;border:1px solid #ddd;min-width:150px}
 <button onclick="location.href='category.html?cat=jant'">Gir</button>
 </div>
 
+<div class="card">
+<img src="images/difuzor.jpg">
+<h3>Difüzör</h3>
+<button onclick="location.href='category.html?cat=difuzor'">Gir</button>
 </div>
 
-<a class="whatsapp" href="https://wa.me/905531785602" target="_blank">💬</a>
+<div class="card">
+<img src="images/ayna.jpg">
+<h3>Ayna</h3>
+<button onclick="location.href='category.html?cat=ayna'">Gir</button>
+</div>
 
-<script src="js/car-data.js"></script>
-<script src="js/car-ui.js"></script>
+<div class="card">
+<img src="images/marsbiyel.jpg">
+<h3>Marsbiyel</h3>
+<button onclick="location.href='category.html?cat=marsbiyel'">Gir</button>
+</div>
+
+<div class="card">
+<img src="images/tavan.jpg">
+<h3>Tavan</h3>
+<button onclick="location.href='category.html?cat=tavan'">Gir</button>
+</div>
+
+<div class="card">
+<img src="images/tozluk.jpg">
+<h3>Tozluk</h3>
+<button onclick="location.href='category.html?cat=tozluk'">Gir</button>
+</div>
+
+</div>
 
 <script>
 function saveFilters(){
-  const brand=document.getElementById("brand").value;
-  const model=document.getElementById("model").value;
-  const year=document.getElementById("year").value;
+const brand=document.getElementById("brand").value;
+const model=document.getElementById("model").value;
+const year=document.getElementById("year").value;
 
-  localStorage.setItem("carBrand",brand);
-  localStorage.setItem("carModel",model);
-  localStorage.setItem("carYear",year);
+localStorage.setItem("carBrand",brand);
+localStorage.setItem("carModel",model);
+localStorage.setItem("carYear",year);
 
-  window.location.href="category.html";
+alert("Filtre kaydedildi");
 }
 
 function clearFilters(){
-  localStorage.clear();
-  location.reload();
+localStorage.clear();
+location.reload();
 }
 </script>
 
