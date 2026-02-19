@@ -48,8 +48,55 @@ cursor:pointer;
 <div class="top">Pınar Oto Aksesuar</div>
 <h2 style="text-align:center" id="baslik"></h2>
 <div id="urunler" class="grid"></div>
-
 <script>
+document.addEventListener("DOMContentLoaded", async function(){
+
+  const kategori = new URLSearchParams(window.location.search).get("cat");
+
+  const brand = localStorage.getItem("carBrand");
+  const model = localStorage.getItem("carModel");
+  const year  = localStorage.getItem("carYear");
+
+  const grid = document.getElementById("urunler");
+  const baslik = document.getElementById("baslik");
+
+  const res = await fetch("products.json");
+  const products = await res.json();
+
+  let html = "";
+
+  const filtered = products.filter(p => {
+
+    if(p.kategori !== kategori) return false;
+
+    if(!brand) return true;
+
+    return (
+      p.brand === brand &&
+      p.model === model &&
+      p.year  === year
+    );
+  });
+
+  if(filtered.length === 0){
+    html = "<h3>Bu araç için ürün bulunamadı</h3>";
+  }else{
+    filtered.forEach(p=>{
+      html += `
+      <div class="card">
+        <img src="${p.resim}">
+        <h3>${p.ad}</h3>
+        <p>${p.fiyat} TL</p>
+      </div>
+      `;
+    });
+  }
+
+  baslik.innerText = kategori;
+  grid.innerHTML = html;
+
+});
+</script>
 document.addEventListener("DOMContentLoaded", async function(){
 
   const params = new URLSearchParams(window.location.search);
