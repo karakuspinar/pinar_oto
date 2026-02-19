@@ -60,15 +60,14 @@ select{
 padding:12px;
 border-radius:20px;
 border:1px solid #ddd;
-min-width:170px;
+min-width:160px;
 }
 
-/* 🔴 KATEGORİ GRID */
 .grid{
 max-width:1200px;
 margin:30px auto;
 display:grid;
-grid-template-columns:repeat(3,1fr);
+grid-template-columns:repeat(4,1fr);
 gap:30px;
 }
 
@@ -86,7 +85,6 @@ height:200px;
 object-fit:contain;
 }
 
-/* 🔴 WHATSAPP */
 .whatsapp{
 position:fixed;
 right:20px;
@@ -95,9 +93,8 @@ background:#25D366;
 color:#fff;
 padding:15px 20px;
 border-radius:50px;
-font-weight:bold;
 text-decoration:none;
-box-shadow:0 5px 15px rgba(0,0,0,0.2);
+font-weight:bold;
 }
 </style>
 </head>
@@ -127,28 +124,43 @@ Pınar Oto Aksesuar • Orijinal Ürün • Ücretsiz Kargo
 <select id="brand">
 <option value="">Marka</option>
 <option>Renault</option>
-<option>Ford</option>
 <option>Fiat</option>
+<option>Ford</option>
 <option>BMW</option>
 <option>Audi</option>
 <option>Volkswagen</option>
-<option>Hyundai</option>
 <option>Honda</option>
+<option>Hyundai</option>
 <option>Toyota</option>
 <option>Peugeot</option>
 <option>Citroen</option>
 <option>Dacia</option>
+<option>Skoda</option>
+<option>Seat</option>
+<option>Kia</option>
+<option>Opel</option>
 </select>
 
 <select id="model">
 <option>Model</option>
+<option>Clio</option>
+<option>Megane</option>
+<option>Egea</option>
+<option>Focus</option>
+<option>Civic</option>
+<option>Corolla</option>
 </select>
 
 <select id="year">
 <option>Yıl</option>
+<option>2005</option>
+<option>2010</option>
+<option>2015</option>
+<option>2020</option>
+<option>2023</option>
 </select>
 
-<button onclick="saveFilters()">Uygula</button>
+<button onclick="apply()">Uygula</button>
 <button onclick="clearFilters()">Sıfırla</button>
 
 </div>
@@ -160,62 +172,67 @@ Pınar Oto Aksesuar • Orijinal Ürün • Ücretsiz Kargo
 <div class="card">
 <img src="images/cam.jpg">
 <h3>Cam</h3>
-<button onclick="location.href='category.html?cat=cam'">Gir</button>
+<button onclick="location.href='category.html?cat=cam'">Kategoriye Git</button>
 </div>
 
 <div class="card">
 <img src="images/paspas.jpg">
 <h3>Paspas</h3>
-<button onclick="location.href='category.html?cat=paspas'">Gir</button>
+<button onclick="location.href='category.html?cat=paspas'">Kategoriye Git</button>
 </div>
 
 <div class="card">
 <img src="images/jant.jpg">
 <h3>Jant</h3>
-<button onclick="location.href='category.html?cat=jant'">Gir</button>
+<button onclick="location.href='category.html?cat=jant'">Kategoriye Git</button>
 </div>
 
 <div class="card">
 <img src="images/difuzor.jpg">
 <h3>Difüzör</h3>
-<button onclick="location.href='category.html?cat=difuzor'">Gir</button>
+<button onclick="location.href='category.html?cat=difuzor'">Kategoriye Git</button>
 </div>
 
 <div class="card">
 <img src="images/ayna.jpg">
 <h3>Ayna</h3>
-<button onclick="location.href='category.html?cat=ayna'">Gir</button>
+<button onclick="location.href='category.html?cat=ayna'">Kategoriye Git</button>
 </div>
 
 <div class="card">
 <img src="images/marsbiyel.jpg">
 <h3>Marsbiyel</h3>
-<button onclick="location.href='category.html?cat=marsbiyel'">Gir</button>
+<button onclick="location.href='category.html?cat=marsbiyel'">Kategoriye Git</button>
 </div>
 
 <div class="card">
 <img src="images/tavan.jpg">
-<h3>Tavan</h3>
-<button onclick="location.href='category.html?cat=tavan'">Gir</button>
+<h3>Tavan Çıtası</h3>
+<button onclick="location.href='category.html?cat=tavan'">Kategoriye Git</button>
 </div>
 
 <div class="card">
 <img src="images/tozluk.jpg">
 <h3>Tozluk</h3>
-<button onclick="location.href='category.html?cat=tozluk'">Gir</button>
+<button onclick="location.href='category.html?cat=tozluk'">Kategoriye Git</button>
 </div>
 
 </div>
 
-<!-- WHATSAPP -->
 <a class="whatsapp" href="https://wa.me/905531785602" target="_blank">
-WhatsApp
+WhatsApp Sipariş
 </a>
 
 <script>
-function saveFilters(){
+function apply(){
 const brand=document.getElementById("brand").value;
+const model=document.getElementById("model").value;
+const year=document.getElementById("year").value;
+
 localStorage.setItem("carBrand",brand);
+localStorage.setItem("carModel",model);
+localStorage.setItem("carYear",year);
+
 alert("Filtre kaydedildi");
 }
 
