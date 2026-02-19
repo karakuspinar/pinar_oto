@@ -6,56 +6,36 @@
 <title>Kategori</title>
 
 <style>
-body{
-  font-family:Arial;
-  background:#fff5f8;
-  margin:0;
-}
-
-.top{
-  background:#ff2e88;
-  color:#fff;
-  padding:15px;
-  text-align:center;
-  font-weight:bold;
-}
-
-h2{
-  text-align:center;
-  margin-top:20px;
-}
-
+body{font-family:Arial;background:#fff5f8;margin:0}
+.top{background:#ff2e88;color:#fff;padding:15px;text-align:center;font-weight:bold}
 .grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-  gap:20px;
-  padding:20px;
-  max-width:1200px;
-  margin:auto;
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:20px;
+padding:20px;
+max-width:1200px;
+margin:auto;
 }
-
 .card{
-  background:#fff;
-  border-radius:12px;
-  padding:15px;
-  text-align:center;
-  box-shadow:0 0 10px rgba(0,0,0,0.1);
+background:#fff;
+border-radius:12px;
+padding:15px;
+text-align:center;
+box-shadow:0 0 10px rgba(0,0,0,0.1);
 }
-
 .card img{
-  width:100%;
-  height:180px;
-  object-fit:contain;
+width:100%;
+height:180px;
+object-fit:contain;
 }
-
 button{
-  background:#ff2e88;
-  color:#fff;
-  border:none;
-  padding:10px 20px;
-  border-radius:20px;
-  margin-top:10px;
-  cursor:pointer;
+background:#ff2e88;
+color:#fff;
+border:none;
+padding:10px 20px;
+border-radius:20px;
+margin-top:10px;
+cursor:pointer;
 }
 </style>
 </head>
@@ -64,7 +44,7 @@ button{
 
 <div class="top">Pınar Oto Aksesuar</div>
 
-<h2 id="baslik"></h2>
+<h2 id="baslik" style="text-align:center"></h2>
 
 <div id="urunler" class="grid"></div>
 
@@ -82,18 +62,18 @@ document.addEventListener("DOMContentLoaded", async function(){
   const year  = localStorage.getItem("carYear");
 
   const res = await fetch("products.json");
-  const products = await res.json();
+  const data = await res.json();
 
-  let html = "";
+  let html="";
 
-  products.forEach(p => {
+  data.forEach(p=>{
 
-    // Kategori kontrolü
-    if(kategori && p.kategori !== kategori) return;
+    // kategori kontrol
+    if(kategori && p.kategori != kategori) return;
 
-    // Filtre kontrolü
+    // filtre kontrol
     if(brand){
-      const text = (p.ad + " " + (p.aciklama || "")).toLowerCase();
+      const text = (p.ad + " " + (p.aciklama||"")).toLowerCase();
 
       if(brand && !text.includes(brand.toLowerCase())) return;
       if(model && !text.includes(model.toLowerCase())) return;
@@ -101,19 +81,20 @@ document.addEventListener("DOMContentLoaded", async function(){
     }
 
     html += `
-      <div class="card">
-        <img src="${p.resim}">
-        <h3>${p.ad}</h3>
-        <p>${p.fiyat} TL</p>
-        <a href="urun.html?id=${p.id}">
-          <button>Ürünü İncele</button>
-        </a>
-      </div>
+    <div class="card">
+      <img src="${p.resim}">
+      <h3>${p.ad}</h3>
+      <p>${p.fiyat} TL</p>
+
+      <a href="urun.html?id=${p.id}">
+        <button>Ürünü İncele</button>
+      </a>
+    </div>
     `;
   });
 
-  if(html === ""){
-    html = "<h2 style='text-align:center'>Bu araca uygun ürün bulunamadı</h2>";
+  if(html==""){
+    html="<h2 style='text-align:center'>Ürün bulunamadı</h2>";
   }
 
   document.getElementById("urunler").innerHTML = html;
