@@ -248,22 +248,23 @@ function clearFilters(){
 <a href="https://wa.me/05531785602" target="_blank" class="whatsapp">
 WhatsApp Sipariş
 </a>
-<script src="js/car-data.js"></script>
-<script src="js/car-ui.js"></script>
-<script src="js/script.js"></script>
-</body>
 <script>
-let cart = [];
+function saveFilters(){
+  const brand=document.getElementById("brand").value;
+  const model=document.getElementById("model").value;
+  const year=document.getElementById("year").value;
 
-function addToCart(name){
-cart.push(name);
-alert(name + " sepete eklendi");
-document.querySelector(".right-buttons button:last-child").innerText =
-"Sepet (" + cart.length + ")";
+  localStorage.setItem("carBrand",brand);
+  localStorage.setItem("carModel",model);
+  localStorage.setItem("carYear",year);
+
+  window.location.href="category.html";
 }
 
-function openCart(){
-alert("Sepette " + cart.length + " ürün var");
+function clearFilters(){
+  localStorage.clear();
+  location.reload();
 }
+</script>
 </script>
 </html>
