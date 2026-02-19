@@ -47,48 +47,42 @@ cursor:pointer;
 
 <div class="top">Pınar Oto Aksesuar</div>
 
-<h2 style="text-align:center" id="baslik"></h2>
+<h2 style="text-align:center" id="baslik">Tüm Ürünler</h2>
+
 <div id="urunler" class="grid"></div>
 
 <script>
-document.addEventListener("DOMContentLoaded", async function(){
-
 const params = new URLSearchParams(window.location.search);
 const kategori = params.get("cat");
-document.getElementById("baslik").innerText = kategori;
 
-const brand = localStorage.getItem("carBrand");
-const model = localStorage.getItem("carModel");
-const year  = localStorage.getItem("carYear");
+if(kategori){
+  document.getElementById("baslik").innerText = kategori;
+}
 
-const res = await fetch("products.json");
-const products = await res.json();
+fetch("products.json")
+.then(res=>res.json())
+.then(data=>{
 
 let html="";
 
-products.forEach(p=>{
+data.forEach(u=>{
 
-// kategori kontrolü
-if(p.kategori != kategori) return;
+  // kategori seçilmişse filtrele
+  if(kategori && u.kategori != kategori){
+    return;
+  }
 
-// araç filtresi varsa kontrol et
-if(brand){
-   if(p.brand != brand) return;
-   if(p.model != model) return;
-   if(p.year  != year)  return;
-}
+  html += `
+  <div class="card">
+    <img src="${u.resim}">
+    <h3>${u.ad}</h3>
+    <p>${u.fiyat} TL</p>
 
-html += `
-<div class="card">
-<img src="${p.resim}">
-<h3>${p.ad}</h3>
-<p>${p.fiyat} TL</p>
-<a href="urun.html?id=${p.id}">
-<button>Ürünü İncele</button>
-</a>
-</div>
-`;
-
+    <a href="urun.html?id=${u.id}">
+      <button>Ürünü İncele</button>
+    </a>
+  </div>
+  `;
 });
 
 document.getElementById("urunler").innerHTML = html;
