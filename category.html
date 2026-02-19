@@ -10,7 +10,7 @@ body{font-family:Arial;background:#fff5f8;margin:0}
 
 .grid{
 display:grid;
-grid-template-columns:repeat(3,1fr);
+grid-template-columns:repeat(4,1fr);
 gap:20px;
 padding:20px;
 max-width:1200px;
@@ -46,48 +46,61 @@ cursor:pointer;
 <body>
 
 <div class="top">Pınar Oto Aksesuar</div>
-
-<h2 style="text-align:center" id="baslik">Tüm Ürünler</h2>
-
+<h2 style="text-align:center" id="baslik"></h2>
 <div id="urunler" class="grid"></div>
 
 <script>
-const params = new URLSearchParams(window.location.search);
-const kategori = params.get("cat");
+document.addEventListener("DOMContentLoaded", async function(){
 
-if(kategori){
-  document.getElementById("baslik").innerText = kategori;
-}
+  const params = new URLSearchParams(window.location.search);
+  const kategori = params.get("cat");
 
-fetch("products.json")
-.then(res=>res.json())
-.then(data=>{
+  document.getElementById("baslik").innerText = kategori || "Tüm Ürünler";
 
-let html="";
+  const brand = localStorage.getItem("carBrand");
+  const model = localStorage.getItem("carModel");
+  const year  = localStorage.getItem("carYear");
 
-data.forEach(u=>{
+  const res = await fetch("products.json");
+  const products = await res.json();
 
-  // kategori seçilmişse filtrele
-  if(kategori && u.kategori != kategori){
-    return;
-  }
+  let html="";
 
-  html += `
+  products.forEach(p=>{
+
+    // kategori kontrol
+    if(kategori && p.kategori !== kategori) return;
+
+    // araç filtresi yoksa direkt göster
+    if(!brand){
+      html += kart(p);
+      return;
+    }
+
+    // araç eşleşme
+    if(
+      p.brand === brand &&
+      p.model === model &&
+      p.year  === year
+    ){
+      html += kart(p);
+    }
+
+  });
+
+  document.getElementById("urunler").innerHTML = html;
+
+});
+
+function kart(p){
+  return `
   <div class="card">
-    <img src="${u.resim}">
-    <h3>${u.ad}</h3>
-    <p>${u.fiyat} TL</p>
-
-    <a href="urun.html?id=${u.id}">
-      <button>Ürünü İncele</button>
-    </a>
-  </div>
-  `;
-});
-
-document.getElementById("urunler").innerHTML = html;
-
-});
+    <img src="${p.resim}">
+    <h3>${p.ad}</h3>
+    <p>${p.fiyat} TL</p>
+    <button>Sepete Ekle</button>
+  </div>`;
+}
 </script>
 
 </body>
