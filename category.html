@@ -61,36 +61,41 @@ let html="";
 
 data.forEach(p=>{
 
-// kategori kontrol
-if(kategori && p.kategori!=kategori) return;
+  // kategori kontrol
+  if(kategori && kategori!="all" && p.kategori!=kategori) return;
 
-// araç filtre
-if(brand && p.brand!=brand) return;
-if(model && p.model!=model) return;
-// YIL FİLTRE
-if(year){
-  if(!p.year) return;
+  // marka kontrol
+  if(brand && p.brand != brand) return;
 
-  // yıl aralık mı?
-  if(p.year.includes("-")){
-    const parts = p.year.split("-");
-    const start = parseInt(parts[0]);
-    const end = parseInt(parts[1]);
+  // model kontrol
+  if(model && p.model != model) return;
+
+  // YIL KONTROLÜ (KESİN ÇALIŞAN)
+  if(year){
+    if(!p.year) return;
+
     const secilen = parseInt(year);
 
-    if(secilen < start || secilen > end) return;
+    if(p.year.includes("-")){
+      const parts = p.year.split("-");
+      const start = parseInt(parts[0]);
+      const end   = parseInt(parts[1]);
+
+      if(secilen < start || secilen > end) return;
+    }
+    else{
+      if(parseInt(p.year) != secilen) return;
+    }
   }
-  else{
-    if(p.year != year) return;
-  }
-}
-html+=`
-<div class="card">
-<img src="${p.resim}">
-<h3>${p.ad}</h3>
-<p>${p.fiyat} TL</p>
-</div>`;
+
+  html += `
+  <div class="card">
+    <img src="${p.resim}">
+    <h3>${p.ad}</h3>
+    <p>${p.fiyat} TL</p>
+  </div>`;
 });
+
 
 if(html=="") html="<h3 style='text-align:center'>Ürün bulunamadı</h3>";
 
