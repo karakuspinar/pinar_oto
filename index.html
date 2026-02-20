@@ -58,6 +58,47 @@ text-decoration:none;
 font-weight:bold;
 box-shadow:0 5px 15px rgba(0,0,0,0.2);
 }
+/* MOBİL DÜZEN */
+@media (max-width: 900px){
+  .grid{
+    grid-template-columns:repeat(2,1fr);
+    gap:15px;
+    padding:15px;
+  }
+
+  .header-inner{
+    flex-direction:column;
+    gap:10px;
+  }
+
+  .right-buttons{
+    width:100%;
+    justify-content:center;
+  }
+
+  select{
+    width:100%;
+  }
+}
+
+@media (max-width: 500px){
+  .grid{
+    grid-template-columns:1fr;
+  }
+
+  .card img{
+    height:150px;
+  }
+
+  .filters-inner{
+    flex-direction:column;
+    align-items:stretch;
+  }
+
+  button{
+    width:100%;
+  }
+}
 </style>
 </head>
 
