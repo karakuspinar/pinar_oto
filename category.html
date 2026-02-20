@@ -1,105 +1,88 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="tr">
 <head>
-<meta charset="UTF-8">
+<meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Kategori</title>
 
 <style>
-body{font-family:Arial;background:#fff5f8;margin:0}
-.top{background:#ff2e88;color:#fff;padding:15px;text-align:center;font-weight:bold}
-.grid{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-gap:20px;
-padding:20px;
-max-width:1200px;
-margin:auto;
+body{margin:0;font-family:Arial;background:#fff5f8;}
+
+.topbar{
+background:#ff2e88;color:#fff;padding:12px;text-align:center;font-weight:bold;
 }
+
+.grid{
+max-width:1200px;
+margin:40px auto;
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:30px;
+}
+
 .card{
 background:#fff;
-border-radius:12px;
 padding:15px;
+border-radius:12px;
 text-align:center;
 box-shadow:0 0 10px rgba(0,0,0,0.1);
 }
+
 .card img{
 width:100%;
 height:180px;
 object-fit:contain;
-}
-button{
-background:#ff2e88;
-color:#fff;
-border:none;
-padding:10px 20px;
-border-radius:20px;
-margin-top:10px;
-cursor:pointer;
 }
 </style>
 </head>
 
 <body>
 
-<div class="top">Pınar Oto Aksesuar</div>
+<div class="topbar">Pınar Oto Aksesuar</div>
 
-<h2 id="baslik" style="text-align:center"></h2>
+<h2 style="text-align:center" id="title"></h2>
 
-<div id="urunler" class="grid"></div>
+<div class="grid" id="grid"></div>
 
 <script>
-document.addEventListener("DOMContentLoaded", async function(){
+const params=new URLSearchParams(window.location.search);
+const kategori=params.get("cat");
+document.getElementById("title").innerText=kategori;
 
-  const params = new URLSearchParams(window.location.search);
-  const kategori = params.get("cat");
+async function load(){
+const res=await fetch("products.json");
+const data=await res.json();
 
-  document.getElementById("baslik").innerText =
-    kategori ? kategori.toUpperCase() : "Ürünler";
+const brand=localStorage.getItem("carBrand");
+const model=localStorage.getItem("carModel");
+const year=localStorage.getItem("carYear");
 
-  const brand = localStorage.getItem("carBrand");
-  const model = localStorage.getItem("carModel");
-  const year  = localStorage.getItem("carYear");
+let html="";
 
-  const res = await fetch("products.json");
-  const data = await res.json();
+data.forEach(p=>{
 
-  let html="";
+// kategori kontrol
+if(kategori && p.kategori!=kategori) return;
 
-  data.forEach(p=>{
+// araç filtre
+if(brand && p.brand!=brand) return;
+if(model && p.model!=model) return;
+if(year && p.year!=year) return;
 
-    // kategori kontrol
-    if(kategori && p.kategori != kategori) return;
-
-    // filtre kontrol
-    if(brand){
-      const text = (p.ad + " " + (p.aciklama||"")).toLowerCase();
-
-      if(brand && !text.includes(brand.toLowerCase())) return;
-      if(model && !text.includes(model.toLowerCase())) return;
-      if(year  && !text.includes(year.toLowerCase())) return;
-    }
-
-    html += `
-    <div class="card">
-      <img src="${p.resim}">
-      <h3>${p.ad}</h3>
-      <p>${p.fiyat} TL</p>
-
-      <a href="urun.html?id=${p.id}">
-        <button>Ürünü İncele</button>
-      </a>
-    </div>
-    `;
-  });
-
-  if(html==""){
-    html="<h2 style='text-align:center'>Ürün bulunamadı</h2>";
-  }
-
-  document.getElementById("urunler").innerHTML = html;
-
+html+=`
+<div class="card">
+<img src="${p.resim}">
+<h3>${p.ad}</h3>
+<p>${p.fiyat} TL</p>
+</div>`;
 });
+
+if(html=="") html="<h3 style='text-align:center'>Ürün bulunamadı</h3>";
+
+document.getElementById("grid").innerHTML=html;
+}
+
+load();
 </script>
 
 </body>
