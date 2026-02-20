@@ -67,8 +67,23 @@ if(kategori && p.kategori!=kategori) return;
 // araç filtre
 if(brand && p.brand!=brand) return;
 if(model && p.model!=model) return;
-if(year && !p.year.includes(year)) return;
+// YIL FİLTRE
+if(year){
+  if(!p.year) return;
 
+  // yıl aralık mı?
+  if(p.year.includes("-")){
+    const parts = p.year.split("-");
+    const start = parseInt(parts[0]);
+    const end = parseInt(parts[1]);
+    const secilen = parseInt(year);
+
+    if(secilen < start || secilen > end) return;
+  }
+  else{
+    if(p.year != year) return;
+  }
+}
 html+=`
 <div class="card">
 <img src="${p.resim}">
