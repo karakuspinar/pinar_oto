@@ -1,55 +1,55 @@
-const brand = document.getElementById("brand");
-const model = document.getElementById("model");
-const year = document.getElementById("year");
+// MARKA MODEL YIL FİLTRE SİSTEMİ
 
-function loadBrands(){
-  brand.innerHTML = `<option value="">Marka</option>`;
+document.addEventListener("DOMContentLoaded", function(){
 
-  Object.keys(CAR_DATA).sort().forEach(b=>{
-    brand.innerHTML += `<option>${b}</option>`;
-  });
-}
+const brandSelect = document.getElementById("brand");
+const modelSelect = document.getElementById("model");
+const yearSelect  = document.getElementById("year");
 
-brand.addEventListener("change", ()=>{
-  const b = brand.value;
+if(!brandSelect) return;
 
-  model.innerHTML = `<option value="">Model</option>`;
-  year.innerHTML = `<option value="">Yıl</option>`;
+// MARKALARI DOLDUR
+let brands = Object.keys(window.CAR_DATA).sort();
 
-  if(!CAR_DATA[b]) return;
+brandSelect.innerHTML = '<option value="">Marka</option>';
 
-  Object.keys(CAR_DATA[b]).sort().forEach(m=>{
-    model.innerHTML += `<option>${m}</option>`;
-  });
+brands.forEach(brand=>{
+  brandSelect.innerHTML += `<option value="${brand}">${brand}</option>`;
 });
 
-model.addEventListener("change", ()=>{
-  const b = brand.value;
-  const m = model.value;
+// MARKA SEÇİLİNCE MODEL DOLDUR
+brandSelect.addEventListener("change", function(){
 
-  year.innerHTML = `<option value="">Yıl</option>`;
+  const selectedBrand = this.value;
+  modelSelect.innerHTML = '<option value="">Model</option>';
+  yearSelect.innerHTML = '<option value="">Yıl</option>';
 
-  if(!CAR_DATA[b] || !CAR_DATA[b][m]) return;
+  if(!selectedBrand) return;
 
-  CAR_DATA[b][m].forEach(y=>{
-    year.innerHTML += `<option>${y}</option>`;
+  const models = Object.keys(window.CAR_DATA[selectedBrand]).sort();
+
+  models.forEach(model=>{
+    modelSelect.innerHTML += `<option value="${model}">${model}</option>`;
   });
+
 });
-// Uygula
-function saveFilters() {
-  const brand = document.getElementById("brand").value;
-  const model = document.getElementById("model").value;
-  const year = document.getElementById("year").value;
 
-  console.log("Seçilen:", brand, model, year);
+// MODEL SEÇİLİNCE YIL DOLDUR
+modelSelect.addEventListener("change", function(){
 
-  alert("Filtre uygulandı:\n" + brand + " " + model + " " + year);
-}
+  const brand = brandSelect.value;
+  const model = this.value;
 
-// Sıfırla
-function clearFilters() {
-  document.getElementById("brand").selectedIndex = 0;
-  document.getElementById("model").innerHTML = '<option value="">Model</option>';
-  document.getElementById("year").innerHTML = '<option value="">Model Yılı</option>';
-}
-loadBrands();
+  yearSelect.innerHTML = '<option value="">Yıl</option>';
+
+  if(!brand || !model) return;
+
+  const years = window.CAR_DATA[brand][model];
+
+  years.forEach(year=>{
+    yearSelect.innerHTML += `<option value="${year}">${year}</option>`;
+  });
+
+});
+
+});
