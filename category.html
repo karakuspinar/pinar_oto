@@ -67,7 +67,7 @@ if(kategori && p.kategori!=kategori) return;
 // araç filtre
 if(brand && p.brand!=brand) return;
 if(model && p.model!=model) return;
-if(year && p.year!=year) return;
+if(year && !p.year.includes(year)) return;
 
 html+=`
 <div class="card">
